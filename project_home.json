@@ -1,1 +1,100 @@
-[]
+[
+    {
+        "id": "14e87492dacaa86f",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3beb613354652066",
+        "type": "mqtt-broker",
+        "name": "Mosquitto",
+        "broker": "test.mosquitto.org",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e2a347e1b687283c",
+        "type": "mqtt in",
+        "z": "14e87492dacaa86f",
+        "name": "DHT11",
+        "topic": "espCoba/DHT1/payload",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "3beb613354652066",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 70,
+        "y": 40,
+        "wires": [
+            [
+                "fc089dc0ebb57543"
+            ]
+        ]
+    },
+    {
+        "id": "fc089dc0ebb57543",
+        "type": "debug",
+        "z": "14e87492dacaa86f",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 240,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "15726434236e3f45",
+        "type": "mqtt in",
+        "z": "14e87492dacaa86f",
+        "name": "DHT22",
+        "topic": "espCoba/DHT2/payload",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "3beb613354652066",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 70,
+        "y": 100,
+        "wires": [
+            [
+                "fc089dc0ebb57543"
+            ]
+        ]
+    }
+]
