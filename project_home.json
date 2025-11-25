@@ -39,6 +39,37 @@
         "sessionExpiry": ""
     },
     {
+        "id": "c793e2df807a9ea0",
+        "type": "mqtt-broker",
+        "name": "EMQX",
+        "broker": "broker.emqx.io",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
         "id": "e2a347e1b687283c",
         "type": "mqtt in",
         "z": "14e87492dacaa86f",
@@ -46,7 +77,7 @@
         "topic": "espCoba/DHT1/payload",
         "qos": "2",
         "datatype": "auto-detect",
-        "broker": "3beb613354652066",
+        "broker": "c793e2df807a9ea0",
         "nl": false,
         "rap": true,
         "rh": 0,
@@ -55,26 +86,9 @@
         "y": 40,
         "wires": [
             [
-                "fc089dc0ebb57543"
+                "b54512b8e549a4ea"
             ]
         ]
-    },
-    {
-        "id": "fc089dc0ebb57543",
-        "type": "debug",
-        "z": "14e87492dacaa86f",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 240,
-        "y": 60,
-        "wires": []
     },
     {
         "id": "15726434236e3f45",
@@ -84,7 +98,7 @@
         "topic": "espCoba/DHT2/payload",
         "qos": "2",
         "datatype": "auto-detect",
-        "broker": "3beb613354652066",
+        "broker": "c793e2df807a9ea0",
         "nl": false,
         "rap": true,
         "rh": 0,
@@ -93,8 +107,63 @@
         "y": 100,
         "wires": [
             [
-                "fc089dc0ebb57543"
+                "f397d6f86edd3a12",
+                "99b6e05e780597a0"
             ]
+        ]
+    },
+    {
+        "id": "b54512b8e549a4ea",
+        "type": "function",
+        "z": "14e87492dacaa86f",
+        "name": "dht11",
+        "func": "var temp11 = msg.payload.suhu;\nvar hum11 = msg.payload.kelembapan;\nglobal.set(\"temp11\", msg.payload.suhu);\nglobal.set(\"hum11\", msg.payload.kelembapan);\n\nfunction formatDesimal(angka){\n    return Number(angka.toFixed(2));\n}\n\nvar tempKalibrasi = formatDesimal((0.8330450999 * temp11) + 6.167253154);\nvar humKalibrasi = formatDesimal((0.7699689581 * hum11) + 3.511367551);\n\nmsg.topic = \"espCoba/DHTk/payload\";\nmsg.payload = {tempKalibrasi, humKalibrasi};\n\nglobal.set(\"tempKalibrasi\", msg.payload.tempKalibrasi);\nglobal.set(\"humKalibrasi\", msg.payload.humKalibrasi);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 230,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f397d6f86edd3a12",
+        "type": "function",
+        "z": "14e87492dacaa86f",
+        "name": "dht22",
+        "func": "global.set(\"temp22\", msg.payload.suhu);\nglobal.set(\"hum22\", msg.payload.kelembapan);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 230,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "99b6e05e780597a0",
+        "type": "function",
+        "z": "14e87492dacaa86f",
+        "name": "global get",
+        "func": "var temp11 = global.get(\"temp11\");\nvar hum11 = global.get(\"hum11\");\nvar temp22 = global.get(\"temp22\");\nvar hum22 = global.get(\"hum22\");\nvar tempKalibrasi = global.get(\"tempKalibrasi\");\nvar humKalibrasi = global.get(\"humKalibrasi\");\n\nmsg.topic = \"espCoba/DHTall/payload\";\nmsg.payload = {\n    temp11,\n    temp22,\n    tempKalibrasi,\n    hum11,\n    hum22,\n    humKalibrasi\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 140,
+        "wires": [
+            []
         ]
     }
 ]
